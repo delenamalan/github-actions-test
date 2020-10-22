@@ -10,4 +10,4 @@ jobs:
 
       - name: Echo environment variables
         shell: bash
-        run: script.sh
+        run: ./script.sh
