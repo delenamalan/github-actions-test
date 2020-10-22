@@ -10,20 +10,20 @@ echo "GITHUB_REPOSITORY $GITHUB_REPOSITORY"
 
 
 if [$GITHUB_BASE_REF]
+then
     # PR
     REMOTE = $(git remote -v  | awk -F ':' '{print $2}' | awk -F '.' '{print $1}')
     if [$REMOTE != $GITHUB_REPOSITORY]
+    then
         echo "Forked PR"
         git remote add base "git@github.com:$GITHUB_REPOSITORY.git"
         git fetch --depth=1 base $GITHUB_BASE_REF
         git diff base/$GITHUB_BASE_REF
-    then
+    else
         echo "Non-forked PR"
         git fetch --depth=1 origin $GITHUB_BASE_REF
         git diff origin/$GITHUB_BASE_REF
-    else
     fi
-then
 else
     # Commit
     echo "Commit diff"
