@@ -11,9 +11,11 @@ echo "GITHUB_REPOSITORY $GITHUB_REPOSITORY"
 if [[ ! -z "$GITHUB_BASE_REF" ]]
 then
     # PR
+    echo "Remote get-url: "
+    git remote get-url origin
     REMOTE=$(git remote get-url origin | awk -F ':' '{print $2}' | awk -F '.' '{print $1}')
     echo "Remote: $REMOTE"
-    if [[ $REMOTE == $GITHUB_REPOSITORY ]]
+    if [[ $REMOTE != $GITHUB_REPOSITORY ]]
     then
         echo "Forked PR"
         git remote add base "git@github.com:$GITHUB_REPOSITORY.git"
