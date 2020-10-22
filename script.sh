@@ -13,7 +13,7 @@ then
     # PR
     echo "Remote get-url: "
     git remote get-url origin
-    REMOTE=$(git remote get-url origin | awk -F ':' '{print $2}' | awk -F '.' '{print $1}')
+    REMOTE=$(git remote get-url origin | awk -F "/" '{print $4"/"$5}')
     echo "Remote: $REMOTE"
     if [[ $REMOTE != $GITHUB_REPOSITORY ]]
     then
