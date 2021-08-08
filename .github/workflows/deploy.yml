@@ -12,3 +12,6 @@ jobs:
       - name: Echo environment variables
         shell: bash
         run: ./script.sh
+      - name: Git diff origin/master
+        shell: bash
+        run: ./script2.sh
