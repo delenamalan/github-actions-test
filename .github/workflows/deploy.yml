@@ -1,19 +1,22 @@
-name: Echo Github environment variables
-
+name: AWS example workflow
 on: [push, pull_request]
-
+env:
+  AWS_REGION : "eu-central-1"
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
 jobs:
-  build:
+  TestAWSKey:
     runs-on: ubuntu-latest
     steps:
-      - name: Use secret
-        run: echo $MY_SECRET
-      - uses: actions/checkout@v2
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          fetch-depth: 2
-      - name: Echo environment variables
-        shell: bash
-        run: ./script.sh
-      - name: Git diff origin/master
-        shell: bash
-        run: ./script2.sh
+          role-to-assume: $ROLE_ARN
+          role-session-name: samplerolesession
+          aws-region: ${{ env.AWS_REGION }}
+      - name:  Get caller identity
+        run: aws sts get-caller-identity 
+
